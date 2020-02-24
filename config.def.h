@@ -12,7 +12,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "RobotoMono Nerd Font:style=Bold,Regular:size=10" };
 static const char dmenufont[]       = "RobotoMono Nerd Font:style=Bold:size=10";
-static const char col_gray1[]       = "#000000";
+static const char col_gray1[]       = "#040c1a";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
@@ -89,6 +89,7 @@ static const char *printcmd[] = {"xfce4-screenshooter","-f", NULL};
 static const char *printwindowcmd[] = {"xfce4-screenshooter","-w", NULL};
 static const char *printareacmd[] = {"xfce4-screenshooter","-c", NULL};
 static const char *restartpicomcmd[] = {"restartpicom", NULL};
+static const char *lockscreen[] = {"light-locker-command", "-l", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -139,6 +140,7 @@ static Key keys[] = {
     { 0|ControlMask,            XK_Print,      spawn,          {.v = printwindowcmd} },
     { 0|ShiftMask,              XK_Print,      spawn,          {.v = printareacmd} },
     { MODKEY,                       XK_p,      spawn,          {.v = restartpicomcmd} },
+    { MODKEY|ControlMask,           XK_l,      spawn,          {.v = lockscreen} },
 };
 
 /* button definitions */
