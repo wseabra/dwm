@@ -1,5 +1,5 @@
 /* See LICENSE file for copyright and license details. */
-
+#include <X11/XF86keysym.h>
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -17,7 +17,7 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#503645";
-static const char col_border_sel[]  = "#237bbb";
+static const char col_border_sel[]  = "#bf8a91";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -36,6 +36,9 @@ static const Rule rules[] = {
 	{ "Gimp",      NULL,       NULL,       0,            1,           -1 },
 	{ "firefox",   NULL,       NULL,       1 << 0,       0,           -1 },
 	{ "Telegram",  NULL,       NULL,       1 << 6,       1,           -1 },
+	{ "Spotify",   NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "Steam",     NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "vlc",       NULL,       NULL,       1 << 5,       0,           -1 },
 };
 
 /* layout(s) */
@@ -67,6 +70,18 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 static const char *firefoxcmd[] = {"firefox", NULL};
 static const char *thunarcmd[] = {"thunar", NULL};
+static const char *brightnessUpcmd[] = {"xbacklight","-inc","10", NULL};
+static const char *brightnessDowncmd[] = {"xbacklight","-dec","10", NULL};
+static const char *volumeUpcmd[] = {"amixer","-q","set","\'Master\'","1%+", NULL};
+static const char *volumeDowncmd[] = {"amixer","-q","set","\'Master\'","1%-", NULL};
+static const char *volumemutecmd[] = {"amixer","-q","set","\'Master\'","toggle", NULL};
+static const char *audioplaycmd[] = {"playerctl","play-pause", NULL};
+static const char *audionextcmd[] = {"playerctl","next", NULL};
+static const char *audioprevcmd[] = {"playerctl","previous", NULL};
+static const char *printcmd[] = {"xfce4-screenshooter","-f", NULL};
+static const char *printwindowcmd[] = {"xfce4-screenshooter","-w", NULL};
+static const char *printareacmd[] = {"xfce4-screenshooter","-c", NULL};
+static const char *restartpicomcmd[] = {"restartpicom", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -81,7 +96,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,                       XK_c,      killclient,     {0} },
+	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -105,6 +120,18 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
     { MODKEY,                       XK_b,      spawn,          {.v = firefoxcmd} },
     { MODKEY,                       XK_t,      spawn,          {.v = thunarcmd} },
+    { 0,        XF86XK_MonBrightnessDown,      spawn,          {.v = brightnessDowncmd} },
+    { 0,          XF86XK_MonBrightnessUp,      spawn,          {.v = brightnessUpcmd} },
+    { 0,         XF86XK_AudioRaiseVolume,      spawn,          {.v = volumeUpcmd} },
+    { 0,         XF86XK_AudioLowerVolume,      spawn,          {.v = volumeDowncmd} },
+    { 0,                XF86XK_AudioMute,      spawn,          {.v = volumemutecmd} },
+    { 0,                XF86XK_AudioPlay,      spawn,          {.v = audioplaycmd} },
+    { 0,                XF86XK_AudioNext,      spawn,          {.v = audionextcmd} },
+    { 0,                XF86XK_AudioPrev,      spawn,          {.v = audioprevcmd} },
+    { 0,                        XK_Print,      spawn,          {.v = printcmd} },
+    { 0|ControlMask,            XK_Print,      spawn,          {.v = printwindowcmd} },
+    { 0|ShiftMask,              XK_Print,      spawn,          {.v = printareacmd} },
+    { MODKEY,                       XK_p,      spawn,          {.v = restartpicomcmd} },
 };
 
 /* button definitions */
