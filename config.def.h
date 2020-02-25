@@ -44,7 +44,7 @@ static const Rule rules[] = {
 	{ "firefox",   NULL,       NULL,       1 << 0,       0,           -1 },
 	{ "Telegram",  NULL,       NULL,       1 << 6,       1,           -1 },
 	{ "Spotify",   NULL,       NULL,       1 << 4,       0,           -1 },
-	{ "Steam",     NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Steam",     NULL,       NULL,       1 << 3,       1,           -1 },
 	{ "vlc",       NULL,       NULL,       1 << 5,       0,           -1 },
 };
 
