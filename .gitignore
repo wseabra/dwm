@@ -1,1 +1,4 @@
 .ccls-cache/
+*.o
+config.h
+dwm
