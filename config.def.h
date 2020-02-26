@@ -1,9 +1,12 @@
-/* See LICENSE file for copyright and license details. */
+    /* See LICENSE file for copyright and license details. */
+/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+
 #include <X11/XF86keysym.h>
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappx     = 4;        /* gaps between windows */
+static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
@@ -36,8 +39,10 @@ static const Rule rules[] = {
 	{ "Gimp",      NULL,       NULL,       0,            1,           -1 },
 	{ "firefox",   NULL,       NULL,       1 << 0,       0,           -1 },
 	{ "Telegram",  NULL,       NULL,       1 << 6,       1,           -1 },
-	{ "Spotify",   NULL,       NULL,       1 << 4,       0,           -1 },
-	{ "Steam",     NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "discord",   NULL,       NULL,       1 << 6,       1,           -1 },
+	{ "Spotify",   NULL,       NULL,       1 << 4,       1,           -1 },
+	{ "spotify",   NULL,       NULL,       1 << 4,       1,           -1 },
+	{ "Steam",     NULL,       NULL,       1 << 3,       1,           -1 },
 	{ "vlc",       NULL,       NULL,       1 << 5,       0,           -1 },
 };
 
@@ -51,10 +56,13 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+	{ "TTT",      bstack },
+	{ "===",      bstackhoriz },
 };
 
 /* key definitions */
 #define MODKEY Mod4Mask
+#define ALTKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -78,9 +86,6 @@ static const char *volumemutecmd[] = {"amixer","-q","set","\'Master\'","toggle",
 static const char *audioplaycmd[] = {"playerctl","play-pause", NULL};
 static const char *audionextcmd[] = {"playerctl","next", NULL};
 static const char *audioprevcmd[] = {"playerctl","previous", NULL};
-static const char *printcmd[] = {"xfce4-screenshooter","-f", NULL};
-static const char *printwindowcmd[] = {"xfce4-screenshooter","-w", NULL};
-static const char *printareacmd[] = {"xfce4-screenshooter","-c", NULL};
 static const char *restartpicomcmd[] = {"restartpicom", NULL};
 static const char *lockscreen[] = {"light-locker-command", "-l", NULL};
 
@@ -101,6 +106,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -129,11 +136,11 @@ static Key keys[] = {
     { 0,                XF86XK_AudioPlay,      spawn,          {.v = audioplaycmd} },
     { 0,                XF86XK_AudioNext,      spawn,          {.v = audionextcmd} },
     { 0,                XF86XK_AudioPrev,      spawn,          {.v = audioprevcmd} },
-    { 0,                        XK_Print,      spawn,          {.v = printcmd} },
-    { 0|ControlMask,            XK_Print,      spawn,          {.v = printwindowcmd} },
-    { 0|ShiftMask,              XK_Print,      spawn,          {.v = printareacmd} },
+    { 0,                        XK_Print,      spawn,          SHCMD("scrot ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png") },
+    { 0|ControlMask,            XK_Print,      spawn,          SHCMD("scrot -u ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png") },
+    { 0|ShiftMask,              XK_Print,      spawn,          SHCMD("sleep 0.2; scrot -s ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png") },
     { MODKEY,                       XK_p,      spawn,          {.v = restartpicomcmd} },
-    { MODKEY|ControlMask,           XK_l,      spawn,          {.v = lockscreen} },
+    { ALTKEY|ControlMask,           XK_l,      spawn,          {.v = lockscreen} },
 };
 
 /* button definitions */
