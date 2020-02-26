@@ -142,9 +142,9 @@ static Key keys[] = {
     { 0,                XF86XK_AudioPlay,      spawn,          {.v = audioplaycmd} },
     { 0,                XF86XK_AudioNext,      spawn,          {.v = audionextcmd} },
     { 0,                XF86XK_AudioPrev,      spawn,          {.v = audioprevcmd} },
-    { 0,                        XK_Print,      spawn,          SHCMD("scrot ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png") },
-    { 0|ControlMask,            XK_Print,      spawn,          SHCMD("scrot -u ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png") },
-    { 0|ShiftMask,              XK_Print,      spawn,          SHCMD("sleep 0.2; scrot -s ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png") },
+    { 0,                        XK_Print,      spawn,          SHCMD("scrot ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png && notify-send 'Screenshot taken' 'Saved in ~/Pictures/Screenshots'") },
+    { 0|ControlMask,            XK_Print,      spawn,          SHCMD("scrot -u ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png && notify-send 'Screenshot taken' 'Saved in ~/Pictures/Screenshots'") },
+    { 0|ShiftMask,              XK_Print,      spawn,          SHCMD("sleep 0.2; scrot -s ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png && notify-send 'Screenshot taken' 'Saved in ~/Pictures/Screenshots'") },
     { MODKEY,                       XK_p,      spawn,          {.v = restartpicomcmd} },
     { ALTKEY|ControlMask,           XK_l,      spawn,          {.v = lockscreen} },
 };
