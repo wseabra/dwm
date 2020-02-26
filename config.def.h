@@ -1,4 +1,7 @@
-/* See LICENSE file for copyright and license details. */
+    /* See LICENSE file for copyright and license details. */
+/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+
 #include <X11/XF86keysym.h>
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
@@ -90,9 +93,6 @@ static const char *volumemutecmd[] = {"amixer","-q","set","\'Master\'","toggle",
 static const char *audioplaycmd[] = {"playerctl","play-pause", NULL};
 static const char *audionextcmd[] = {"playerctl","next", NULL};
 static const char *audioprevcmd[] = {"playerctl","previous", NULL};
-static const char *printcmd[] = {"scrot","'%Y-%m-%d.png'","-e","'mv", "$f", "~/Pictures/'", NULL};
-static const char *printwindowcmd[] = {"scrot","-u","'%Y-%m-%d.png'","-e","'mv", "$f", "~/Pictures/'", NULL};
-static const char *printareacmd[] = {"scrot","-s","'%Y-%m-%d.png'","-e","'mv", "$f", "~/Pictures/'", NULL};
 static const char *restartpicomcmd[] = {"restartpicom", NULL};
 static const char *lockscreen[] = {"light-locker-command", "-l", NULL};
 
@@ -143,9 +143,9 @@ static Key keys[] = {
     { 0,                XF86XK_AudioPlay,      spawn,          {.v = audioplaycmd} },
     { 0,                XF86XK_AudioNext,      spawn,          {.v = audionextcmd} },
     { 0,                XF86XK_AudioPrev,      spawn,          {.v = audioprevcmd} },
-    { 0,                        XK_Print,      spawn,          {.v = printcmd} },
-    { 0|ControlMask,            XK_Print,      spawn,          {.v = printwindowcmd} },
-    { 0|ShiftMask,              XK_Print,      spawn,          {.v = printareacmd} },
+    { 0,                        XK_Print,      spawn,          SHCMD("scrot ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png") },
+    { 0|ControlMask,            XK_Print,      spawn,          SHCMD("scrot -u ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png") },
+    { 0|ShiftMask,              XK_Print,      spawn,          SHCMD("sleep 0.2; scrot -s ~/Pictures/Screenshots/screenshot-$(date '+%Y%m%d_%H%M%S').png") },
     { MODKEY,                       XK_p,      spawn,          {.v = restartpicomcmd} },
     { ALTKEY|ControlMask,           XK_l,      spawn,          {.v = lockscreen} },
 };
