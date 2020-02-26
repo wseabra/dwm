@@ -43,7 +43,9 @@ static const Rule rules[] = {
 	{ "Gimp",      NULL,       NULL,       0,            1,           -1 },
 	{ "firefox",   NULL,       NULL,       1 << 0,       0,           -1 },
 	{ "Telegram",  NULL,       NULL,       1 << 6,       1,           -1 },
-	{ "Spotify",   NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "discord",   NULL,       NULL,       1 << 6,       1,           -1 },
+	{ "Spotify",   NULL,       NULL,       1 << 4,       1,           -1 },
+	{ "spotify",   NULL,       NULL,       1 << 4,       1,           -1 },
 	{ "Steam",     NULL,       NULL,       1 << 3,       1,           -1 },
 	{ "vlc",       NULL,       NULL,       1 << 5,       0,           -1 },
 };
@@ -62,6 +64,7 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod4Mask
+#define ALTKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -85,9 +88,9 @@ static const char *volumemutecmd[] = {"amixer","-q","set","\'Master\'","toggle",
 static const char *audioplaycmd[] = {"playerctl","play-pause", NULL};
 static const char *audionextcmd[] = {"playerctl","next", NULL};
 static const char *audioprevcmd[] = {"playerctl","previous", NULL};
-static const char *printcmd[] = {"xfce4-screenshooter","-f", NULL};
-static const char *printwindowcmd[] = {"xfce4-screenshooter","-w", NULL};
-static const char *printareacmd[] = {"xfce4-screenshooter","-c", NULL};
+static const char *printcmd[] = {"scrot","'%Y-%m-%d.png'","-e","'mv", "$f", "~/Pictures/'", NULL};
+static const char *printwindowcmd[] = {"scrot","-u","'%Y-%m-%d.png'","-e","'mv", "$f", "~/Pictures/'", NULL};
+static const char *printareacmd[] = {"scrot","-s","'%Y-%m-%d.png'","-e","'mv", "$f", "~/Pictures/'", NULL};
 static const char *restartpicomcmd[] = {"restartpicom", NULL};
 static const char *lockscreen[] = {"light-locker-command", "-l", NULL};
 
@@ -140,7 +143,7 @@ static Key keys[] = {
     { 0|ControlMask,            XK_Print,      spawn,          {.v = printwindowcmd} },
     { 0|ShiftMask,              XK_Print,      spawn,          {.v = printareacmd} },
     { MODKEY,                       XK_p,      spawn,          {.v = restartpicomcmd} },
-    { MODKEY|ControlMask,           XK_l,      spawn,          {.v = lockscreen} },
+    { ALTKEY|ControlMask,           XK_l,      spawn,          {.v = lockscreen} },
 };
 
 /* button definitions */
