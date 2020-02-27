@@ -36,17 +36,19 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class       instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",      NULL,       NULL,       0,            1,           -1 },
-	{ "firefox",   NULL,       NULL,       1 << 0,       0,           -1 },
+	/* class           instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",          NULL,       NULL,       0,            1,           -1 },
+	{ "firefox",       NULL,       NULL,       1 << 0,       0,           -1 },
+	{ "Brave-browser", NULL,       NULL,       1 << 0,       0,           -1 },
     //firefox pip
-	{ "Toolkit",  NULL,       NULL,        1 << 0,       1,           -1 },
-	{ "Telegram",  NULL,       NULL,       1 << 6,       1,           -1 },
-	{ "discord",   NULL,       NULL,       1 << 6,       1,           -1 },
-	{ "Spotify",   NULL,       NULL,       1 << 4,       1,           -1 },
-	{ "spotify",   NULL,       NULL,       1 << 4,       1,           -1 },
-	{ "Steam",     NULL,       NULL,       1 << 3,       1,           -1 },
-	{ "vlc",       NULL,       NULL,       1 << 5,       0,           -1 },
+	{ "Toolkit",       NULL,       NULL,       1 << 0,       1,           -1 },
+	{ "pavucontrol",   NULL,       NULL,       1 << 0,       1,           -1 },
+	{ "Telegram",      NULL,       NULL,       1 << 6,       1,           -1 },
+	{ "discord",       NULL,       NULL,       1 << 6,       1,           -1 },
+	{ "Spotify",       NULL,       NULL,       1 << 4,       1,           -1 },
+	{ "spotify",       NULL,       NULL,       1 << 4,       1,           -1 },
+	{ "Steam",         NULL,       NULL,       1 << 3,       1,           -1 },
+	{ "vlc",           NULL,       NULL,       1 << 5,       0,           -1 },
 };
 
 /* layout(s) */
@@ -81,7 +83,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *firefoxcmd[] = {"firefox", NULL};
+static const char *browsercmd[] = {"brave", NULL};
 static const char *thunarcmd[] = {"thunar", NULL};
 static const char *brightnessUpcmd[] = {"xbacklight","-inc","10", NULL};
 static const char *brightnessDowncmd[] = {"xbacklight","-dec","10", NULL};
@@ -132,7 +134,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-    { MODKEY,                       XK_b,      spawn,          {.v = firefoxcmd} },
+    { MODKEY,                       XK_b,      spawn,          {.v = browsercmd} },
     { MODKEY,                       XK_t,      spawn,          {.v = thunarcmd} },
     { 0,        XF86XK_MonBrightnessDown,      spawn,          {.v = brightnessDowncmd} },
     { 0,          XF86XK_MonBrightnessUp,      spawn,          {.v = brightnessUpcmd} },
